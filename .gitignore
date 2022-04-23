@@ -1,1 +1,5 @@
 .idea
+target
+
+src/test/resources/webdrivers
+src/test/resources/config
