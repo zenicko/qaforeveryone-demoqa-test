@@ -3,3 +3,4 @@ target
 
 src/test/resources/webdrivers
 src/test/resources/config
+src/test/resources/img
