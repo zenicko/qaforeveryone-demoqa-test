@@ -23,11 +23,11 @@ public class TitleTests {
         driver.get("https://demoqa.com/");
 
         BrowserConfig browserConfig = ConfigFactory.create(BrowserConfig.class);
+
         Dimension targetSize = new Dimension(
                 browserConfig.dimensionWidth(),
                 browserConfig.dimensionHeight()
         ); //width, int height
-
         driver.manage().window().setSize(targetSize);
 
         Thread.sleep(5000);

@@ -2,4 +2,6 @@
 target
 
 src/test/resources/webdrivers
-src/test/resources/config
+src/test/resources/config/*
+src/test/resources/img
+!src/test/resources/config/browser.properties.examples
