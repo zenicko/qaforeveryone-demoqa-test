@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeMethod;
 
 public class BaseTest {
    public WebDriver driver;
+   static int iter1 = 0;
 
     @BeforeMethod
     public void setBrowser() {
@@ -20,7 +21,8 @@ public class BaseTest {
     }
 
     @AfterMethod
-    void setDown() throws InterruptedException {
+    public void setDown() throws InterruptedException {
+        System.out.println(++iter1);
         Thread.sleep(5000);
         driver.quit();
     }
