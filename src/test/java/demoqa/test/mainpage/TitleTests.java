@@ -1,24 +1,20 @@
 package demoqa.test.mainpage;
 
 // import org.assertj.core.api.Assertions;
+
 import demoqa.config.BrowserConfig;
+import demoqa.test.BaseTest;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
-public class TitleTests {
-
+public class TitleTests extends BaseTest {
 
     @Test(testName = "The title is exist")
     public void isExist() throws InterruptedException {
         String nameTitleExpected = "ToolsQA";
-
-        System.setProperty("webdriver.chrome.driver", "D:/IDEAProjects/qaforeveryone-demoqa-test/src/test/resources/webdrivers/chrome/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
 
         driver.get("https://demoqa.com/");
 
@@ -35,8 +31,6 @@ public class TitleTests {
 
         //Assertions.assertThat(nameTitleActual).isEqualTo(nameTitleExpected);
         Assert.assertEquals(nameTitleActual, nameTitleExpected);
-
-        driver.quit();
     }
 
 }
