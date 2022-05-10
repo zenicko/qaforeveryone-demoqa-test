@@ -31,7 +31,10 @@ public class StudentRegistrationFormTest extends BaseTest {
         WebElement userEmail = driver.findElement(new By.ByCssSelector("#userEmail"));
         userEmail.sendKeys(USER_EMAIL);
 
-        WebElement genderMale = driver.findElement(new By.ByCssSelector("#genterWrapper div.custom-control.custom-radio.custom-control-inline label"));
+//        WebElement genderMale = driver.findElement(new By.ByCssSelector("#genterWrapper div.custom-control.custom-radio.custom-control-inline label"));
+        WebElement genderMale = driver.findElement(new By.ByCssSelector("#genterWrapper > div.col-md-9.col-sm-12 > div:nth-child(2)"));
+        // #genterWrapper > div.col-md-9.col-sm-12 > div:nth-child(2)
+        // #genterWrapper div.custom-control.custom-radio.custom-control-inline label
         genderMale.click();
 
         WebElement userNumber = driver.findElement(new By.ByCssSelector("#userNumber"));
