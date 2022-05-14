@@ -1,11 +1,17 @@
 package demoqa.test.practiceform;
 
 import demoqa.test.BaseTest;
+import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StudentRegistrationFormTest extends BaseTest {
 
@@ -22,11 +28,29 @@ public class StudentRegistrationFormTest extends BaseTest {
         final String LAST_NAME = "Ivanov";
         final String USER_EMAIL = "a@a.ru";
         final String USER_NUMBER = "1234567890";
-        final String GENDER = "1";
+        final String[] GENDER = {"1", "Male"};
 
         final String DAY_OF_BIRTH = "15";
         final String MONTH_OF_BIRTH = "February";
         final String YEAR_OF_BIRTH = "1985";
+        final String DATE_OF_BIRTH =
+                DAY_OF_BIRTH + " " +
+                        MONTH_OF_BIRTH + "," +
+                        YEAR_OF_BIRTH;          //15 February,1985
+
+        final String SUBJECT = "Maths";
+        final String HOBBIES = "Sports";
+
+        final String PATH_TO_FILE = "D:\\IDEAProjects\\3 QAFOREVERYONE\\qaforeveryone-demoqa-test" +
+                "\\src\\test\\resources\\img\\cat.jpg";
+        final String NAME_OF_FILE = new File(PATH_TO_FILE).getName();
+
+        final String CURRENT_ADDRESS = "CA, San Francisco, 17 avn, 1";
+
+        final String NAME_STATE = "NCR";
+        final String NAME_CITY = "Delhi";
+        final String STATE_AND_CITY = NAME_STATE + " " + NAME_CITY;
+
 
         WebElement firstName = driver.findElement(new By.ByCssSelector("input#firstName.mr-sm-2.form-control"));
         firstName.sendKeys(FIRST_NAME);
@@ -39,7 +63,7 @@ public class StudentRegistrationFormTest extends BaseTest {
 
 //        WebElement genderMale = driver.findElement(new By.ByCssSelector("#genterWrapper div.custom-control.custom-radio.custom-control-inline label"));
         WebElement genderMale = driver.findElement(new By.ByCssSelector("#genterWrapper > div.col-md-9.col-sm-12 > div:nth-child(" +
-                GENDER + ")"));
+                GENDER[0] + ")"));
 
         // #genterWrapper > div.col-md-9.col-sm-12 > div:nth-child(2)
         // #genterWrapper div.custom-control.custom-radio.custom-control-inline label
@@ -75,7 +99,69 @@ public class StudentRegistrationFormTest extends BaseTest {
         WebElement day = driver.findElement(By.cssSelector(".react-datepicker__day--0" + DAY_OF_BIRTH));
         day.click();
 
-    }
+        // Subject
+        //
 
+        WebElement subject = driver.findElement(By.id("subjectsInput"));
+        subject.sendKeys(SUBJECT);
+
+        WebElement choseSubject = driver.findElement(By.id("react-select-2-option-0"));
+        choseSubject.click();
+
+        // Hobbies
+        WebElement hobbies = driver.findElement(By.cssSelector("div.custom-control.custom-checkbox.custom-control-inline"));
+        hobbies.click();
+
+        // Load a file
+        WebElement loadFile = driver.findElement(By.id("uploadPicture"));
+        loadFile.sendKeys(PATH_TO_FILE);
+
+        // Set a current address
+        WebElement currentAddress = driver.findElement(By.id("currentAddress"));
+        currentAddress.sendKeys(CURRENT_ADDRESS);
+
+        // State and City
+        WebElement nameState = driver.findElement(By.id("react-select-3-input"));
+        nameState.sendKeys(NAME_STATE);
+
+        WebElement choseNameState = driver.findElement(By.id("react-select-3-option-0"));
+        choseNameState.click();
+
+        WebElement nameCity = driver.findElement(By.id("react-select-4-input"));
+        nameCity.sendKeys(NAME_CITY);
+
+        WebElement choseNameCity = driver.findElement(By.id("react-select-4-option-0"));
+        choseNameCity.click();
+
+        // Submit
+
+        WebElement submit = driver.findElement(By.id("submit"));
+        submit.click();
+
+        // Check the result
+        WebElement table = driver.findElement(By.tagName("tbody"));
+        List<WebElement> rows = table.findElements(By.tagName("tr"));
+
+        Map<String, String> tableResult = new HashMap<>();
+        for (WebElement row : rows) {
+
+            tableResult.put(
+                    row.findElements(By.tagName("td")).get(0).getText(),
+                    row.findElements(By.tagName("td")).get(1).getText()
+            );
+        }
+
+        Assertions.assertThat(tableResult.get("Student Name")).isEqualTo(FIRST_NAME + " " + LAST_NAME);
+        Assertions.assertThat(tableResult.get("Student Email")).isEqualTo(USER_EMAIL);
+        Assertions.assertThat(tableResult.get("Gender")).isEqualTo(GENDER[1]);
+        Assertions.assertThat(tableResult.get("Mobile")).isEqualTo(USER_NUMBER);
+
+        Assertions.assertThat(tableResult.get("Subjects")).isEqualTo(SUBJECT);
+        Assertions.assertThat(tableResult.get("Hobbies")).isEqualTo(HOBBIES);
+        Assertions.assertThat(tableResult.get("Picture")).isEqualTo(NAME_OF_FILE);
+        Assertions.assertThat(tableResult.get("Address")).isEqualTo(CURRENT_ADDRESS);
+        Assertions.assertThat(tableResult.get("State and City")).isEqualTo(STATE_AND_CITY);
+
+    }
 
 }
